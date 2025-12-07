@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+ 
 import SplashScreen from './android/components/SplashScreen';
 import Onboarding from './android/components/Onboarding';
 import OnboardingMap from './android/components/OnboardingMap';
@@ -15,7 +14,7 @@ import WeightSelector from './android/components/WeightSelector';
 import StepSelector from './android/components/StepSelector'; 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [step, setStep] = useState<'onboarding' | 'map' | 'report' | 'welcome'| 'signup'|'gender'|'lifestyle'|'agepicker'|'heightselector'|'weightselector'|'stepset'>('onboarding');
+  const [step, setStep] = useState<'onboarding' | 'map' | 'report' | 'welcome'| 'signup'|'gender'|'lifestyle'|'agepicker'|'heightselector'|'weightselector'|'stepselector'>('onboarding');
   console.log('App render, step =', step);
 
   useEffect(() => {
@@ -55,8 +54,8 @@ if(step==='agepicker')
 if(step==='heightselector')
   return <HeightSelector onContinue={()=>{setStep('weightselector')}}/>;
 if(step==='weightselector')
-  return <WeightSelector onContinue={()=>{setStep('stepset')}}/>;
-if (step === 'stepset') {
+  return <WeightSelector onContinue={()=>{setStep('stepselector')}}/>;
+if (step === 'stepselector') {
   return <StepSelector onContinue={()=>{console.log('StepSelector: Continue pressed')}} />;
 }
 
@@ -70,8 +69,6 @@ if (step === 'stepset') {
 
 
 
-const styles = StyleSheet.create({
  
-});
 
 export default App;

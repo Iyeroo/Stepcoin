@@ -1,5 +1,5 @@
 import React, {  useRef, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity ,Image,Animated} from "react-native";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity ,Image,Animated} from "react-native";
 
 const ITEM_HEIGHT = 80;
 const WHEEL_HEIGHT = ITEM_HEIGHT * 7; // show ~7 items
@@ -7,7 +7,7 @@ const CENTER_OFFSET = (WHEEL_HEIGHT - ITEM_HEIGHT) / 2;
 const PURPLE = "#7B2CFF";
 
 export default function StepSelector({onContinue}) {
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<FlatList<number>>(null);
 
 
 
@@ -23,9 +23,7 @@ const [selected, setSelected] = useState(DEFAULT_STEPS);
     const y = e.nativeEvent.contentOffset.y;
     const index = Math.round(y / ITEM_HEIGHT);
     const safeIndex = Math.max(0, Math.min(index, STEPS_VALUES.length - 1));
-    const finalY = safeIndex * ITEM_HEIGHT;
-
-    scrollRef.current?.scrollTo({ y: finalY, animated: true });
+    scrollRef.current?.scrollToIndex({ index: safeIndex, animated: true });
     setSelected(STEPS_VALUES[safeIndex]);
   };
   const handleContinue = () => 
@@ -57,35 +55,26 @@ const [selected, setSelected] = useState(DEFAULT_STEPS);
           <View style={styles.line} />
         </View>
 
-        {/* Scrollable ages */}
-        <ScrollView
+        <FlatList
           ref={scrollRef}
+          data={STEPS_VALUES}
+          keyExtractor={(item) => String(item)}
           showsVerticalScrollIndicator={false}
+          initialScrollIndex={DEFAULT_STEPS - STEPS_VALUES[0]}
+          getItemLayout={(data, index) => ({ length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index })}
           snapToInterval={ITEM_HEIGHT}
-          snapToAlignment="start"
           decelerationRate="fast"
           onMomentumScrollEnd={onEnd}
-          contentContainerStyle={{
-            paddingTop: CENTER_OFFSET,
-            paddingBottom: CENTER_OFFSET,
-          }}
-        >
-          {STEPS_VALUES.map((step) => {
-            const isSelected = step === selected;
+          contentContainerStyle={{ paddingTop: CENTER_OFFSET, paddingBottom: CENTER_OFFSET }}
+          renderItem={({ item }) => {
+            const isSelected = item === selected;
             return (
-              <View style={styles.itemContainer} key={step}>
-                <Text
-                  style={[
-                    styles.itemText,
-                    isSelected && styles.itemSelected,
-                  ]}
-                >
-                  {step}
-                </Text>
+              <View style={styles.itemContainer}>
+                <Text style={[styles.itemText, isSelected && styles.itemSelected]}>{item}</Text>
               </View>
             );
-          })}
-        </ScrollView>
+          }}
+        />
 
         {/* Fixed "years" text in the center between purple lines */}
         <View style={[styles.fixedYears, { top: CENTER_OFFSET }]}>
