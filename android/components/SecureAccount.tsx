@@ -1,74 +1,52 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Image, TextInput } from "react-native";
-const SecureAccount = ({onSave}) => {
-    const handleSave = () => {
-        onSave?.();
-    }
-  return (
-    <View style={styles.screen}>
-      <View style={styles.inputContainer}>
-        <View style={styles.backButton}>
-          <Image source={require('../assets/icons/arrow.png')} style={styles.inputIcon} />
-        </View>
-        <View style={styles.content}>
-                <Text style={styles.title}>Secure Your Account</Text>
-                <Text style={styles.description}>
-                  Choose a new password for your StepCoin account.Make sure it is secure and easy to remember.
-                </Text>
-              </View>
-         <View style={styles.passwordContainer}>
-            <Text style={styles.label}>New Password</Text>
-          <View style={styles.inputRow}>
-            <Image source={require('../assets/icons/lock.png')} style={styles.inputIcon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-            />
-            <Image source={require('../assets/icons/hidden.png')} style={styles.inputIcon} />
-          </View>
-           <Text style={styles.label}>Confirm New Password</Text>
-          <View style={styles.inputRow}>
-
-            <Image source={require('../assets/icons/lock.png')} style={styles.inputIcon} />
-            <TextInput
-              style={styles.input}
-              placeholder="Confirm Password"
-              secureTextEntry
-            />
-            <Image source={require('../assets/icons/hidden.png')} style={styles.inputIcon} />
-          </View>
-         </View>
-        
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet,Image,TextInput } from "react-native";
+ export default function ForgotPassword({onSendOtp}) {
+    const handleContinue = () => {
+        onSendOtp?.();
+      };
+    return(
+        <View style={styles.container}>
+  <Image source={require('../assets/icons/arrow.png')} style={styles.inputIcon} />
+      
+          
+  <View style={styles.content}>
+        <Text style={styles.title}>Forgot Your Password?</Text>
+       <Text style={styles.description}>
+                Enter the email associated with your Trackfit account below.We Will send you a one-time passcode (OTP) to reset your password
+            </Text>
       </View>
-        <TouchableOpacity style={styles.button} onPress={()=>handleSave()}>
-            <Text style={styles.buttonText}>Save New Password</Text>
-          </TouchableOpacity>
-    </View>
-  );
-};
-export default SecureAccount;
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "space-between", // OTP top, keypad bottom
-  
-    paddingTop: 40,
-    // paddingVertical: 50,
+<Text style={styles.subtitle}>Your Registered Email</Text>
+            <View style={styles.inputContainer}>
+                <Image source={require('../assets/icons/email.png')} style={styles.inputIcon} />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#C9CAD1"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={() => handleContinue()}>
+                <Text style={styles.buttonText}>Send OTP</Text>
+            </TouchableOpacity>
 
-  },
-  inputContainer: {
-  
-    marginHorizontal: 20,
-    
-  },
-inputIcon: {
+        </View>
+    )
+}
+const styles=StyleSheet.create({
+    container:{
+        flex:1,
+       padding:20,
+          backgroundColor: 'white',
+    },
+     inputIcon: {
     width: 24,
     height: 24,
     marginRight: 8,
   },
- content: {
+  content: {
     marginTop: 20,
+    marginBottom: 24,
 
   },
   title: {
@@ -77,48 +55,53 @@ inputIcon: {
   },
   description: {
     fontSize: 16,
-    color: '#5b5858ff',
+    color: '#333',
   },
-  passwordContainer: {
-    marginTop: 20,
-  },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-   
-    borderColor: "#ccc",
-    backgroundColor: '#f5f5f5',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginBottom: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: "#333",
-  },
-  label: {
+  subtitle: {
     fontSize: 16,
     color: '#333',
-    marginBottom: 4,
-    fontWeight: 500,
+    marginBottom: 8,
   },
-  button:{
-    backgroundColor: '#6C63FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 18,
-    borderRadius: 25,
-    marginBottom: 20,
-    marginHorizontal: 20,
-    // position: 'absolute',
-    // bottom: 0,
-  },
-  buttonText:{
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 600,
-  }
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        marginBottom: 24,
+        paddingHorizontal: 16,
+        height: 56,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 25,
+    },
 
-    })
+    input: {
+        flex: 1,
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+
+    title:{
+        fontSize:24,
+        fontWeight:'bold',
+       
+        marginBottom:24,
+    },
+    button: {
+        width: '100%',
+        height: 56,
+        backgroundColor: '#7B2CFF',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 25,
+        left: 20,
+        right: 20,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+})
