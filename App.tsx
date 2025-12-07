@@ -12,9 +12,15 @@ import Agepicker from './android/components/AgeSelector';
 import HeightSelector from './android/components/HeightSelector';
 import WeightSelector from './android/components/WeightSelector';
 import StepSelector from './android/components/StepSelector'; 
+import SignIn from './android/components/SignIn';
+import ForgotPassword from './android/components/ForgotPassword';
+import OtpBoard from './android/components/OtpBoard';
+import SecureAccount from './android/components/SecureAccount';
+import PasswordSuccessful from './android/components/PasswordSuccessful';
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [step, setStep] = useState<'onboarding' | 'map' | 'report' | 'welcome'| 'signup'|'gender'|'lifestyle'|'agepicker'|'heightselector'|'weightselector'|'stepselector'>('onboarding');
+  const [step, setStep] = useState<'onboarding' | 'map' | 'report' | 'welcome'| 'signup'|'signin'|'forgotpassword'|'onSendOtp'|'verify'|'onSave'|'gender'|'lifestyle'|'agepicker'|'heightselector'|'weightselector'|'stepselector'>('onboarding');
   console.log('App render, step =', step);
 
   useEffect(() => {
@@ -39,12 +45,21 @@ function App() {
   }
 
   if (step === 'welcome') {
-    return <Welcome onSignUp={()=>setStep('signup')} />;
+    return <Welcome onSignUp={()=>setStep('signup')} onSignIn={()=>setStep('signin')} />;
   }
   if (step === 'signup') {
   return <SignUp onDone={() => setStep('gender')} />; // or setStep('welcome'), depending on next screen
 }
-
+if(step==='signin')
+  return <SignIn  OnForgotPassword={() => setStep('forgotpassword')} />;
+if(step==='forgotpassword')
+  return <ForgotPassword onSendOtp={() => setStep('onSendOtp')} />;
+if(step==='onSendOtp')
+  return <OtpBoard onVerify={() => setStep('verify')} />;
+if(step==='verify')
+  return <SecureAccount onSave={() => setStep('onSave')} />;
+if(step==='onSave')
+  return <PasswordSuccessful/>;
 if(step==='gender')
   return <Gender onContinue={()=>setStep('lifestyle')}/>;
 if(step==='lifestyle')
